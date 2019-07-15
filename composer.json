@@ -2,6 +2,7 @@
     "name": "rask/coding-standard",
     "type": "library",
     "description": "PHPCS coding standard additions that please rask",
+    "license": "MIT",
 
     "autoload": {
         "psr-4": {
