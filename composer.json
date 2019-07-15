@@ -1,0 +1,33 @@
+{
+    "name": "rask/coding-standard",
+    "type": "library",
+    "description": "PHPCS coding standard additions that please rask",
+
+    "autoload": {
+        "psr-4": {
+            "RaskCodingStandard\\": "RaskCodingStandard/"
+        }
+    },
+
+    "require": {
+        "php": ">=7.3",
+        "roave/security-advisories": "dev-master"
+    },
+
+    "require-dev": {
+        "roave/security-advisories": "dev-master",
+        "phpunit/phpunit": "^7.0",
+        "phpstan/phpstan": "^0.10.6",
+        "phpstan/phpstan-strict-rules": "^0.10.1",
+        "squizlabs/php_codesniffer": "^3.3",
+        "slevomat/coding-standard": "~5.0"
+    },
+
+    "scripts": {
+        "test": "./vendor/bin/phpunit",
+        "stan": "./vendor/bin/phpstan analyze -l 7 -a ./phpstan.autoload.php ./",
+        "lint": ["@php -l .", " ./vendor/bin/phpcs ."],
+        "fix": "./vendor/bin/phpcbf .",
+        "infection": "./vendor/bin/infection"
+    }
+}

@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<ruleset name="" namespace="">
+    <description>Coding standard for this PHP project</description>
+
+    <php_version>7.3</php_version>
+
+    <!-- Generic excludes. -->
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+
+    <autoload>./vendor/autoload.php</autoload>
+
+    <config name="installed_paths" value="vendor/slevomat/coding-standard,./"/>
+
+    <rule ref="Generic.PHP.Syntax" />
+
+    <rule ref="PSR1" />
+    <rule ref="PSR2">
+        <!-- The following exclude is in place to make some multiline declarations saner. -->
+        <exclude name="PSR2.ControlStructures.ControlStructureSpacing.SpacingAfterOpenBrace" />
+    </rule>
+
+    <rule ref="PSR12" />
+
+    <rule ref="PSR1.Methods.CamelCapsMethodName">
+        <!-- `it_can_look_like_this_in_test_methods()`. -->
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+
+    <rule ref="Generic.Files.LineEndings">
+        <properties>
+            <property name="eolChar" value="\n"/>
+        </properties>
+    </rule>
+
+    <rule ref="Generic.Files.EndFileNewline" />
+
+    <!-- Use 100 instead of old-fashioned 80. -->
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="100"/>
+            <property name="absoluteLineLimit" value="120"/>
+        </properties>
+    </rule>
+
+    <rile ref="Generic.VersionControl.GitMergeConflict" />
+
+    <rule ref="Squiz.Commenting.FunctionComment">
+        <exclude name="Squiz.Commenting.FunctionComment.InvalidReturn" />
+        <exclude name="Squiz.Commenting.FunctionComment.MissingReturn" />
+        <exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamType" />
+        <exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamName" />
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+
+    <rule ref="Generic.Commenting.DocComment">
+        <exclude-pattern>*/tests/*</exclude-pattern>
+        <exclude name="Generic.Commenting.DocComment.ParamNotFirst" />
+        <exclude name="Generic.Commenting.DocComment.TagValueIndent" />
+        <exclude name="Generic.Commenting.DocComment.ContentAfterOpen" />
+        <exclude name="Generic.Commenting.DocComment.ContentBeforeClose" />
+        <exclude name="Generic.Commenting.DocComment.MissingShort" />
+    </rule>
+
+    <!-- Force strict types. -->
+    <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes"
+          newlinesCountBetweenOpenTagAndDeclare="0"
+          newlinesCountAfterDeclare="2"
+          spacesCountAroundEqualsSign="1" />
+
+    <!-- Make docblock typing redundant if declaration itself uses types. -->
+    <rule ref="SlevomatCodingStandard.TypeHints.TypeHintDeclaration"
+          enableEachParameterAndReturnInspection="true" />
+    <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses" />
+
+    <!-- Use `===` instead of `==`. -->
+    <rule ref="SlevomatCodingStandard.Operators.DisallowEqualOperators" />
+
+    <!-- Use `\global_function()` instead of `global_function()`. -->
+    <rule ref="SlevomatCodingStandard.PHP.OptimizedFunctionsWithoutUnpacking" />
+
+    <!-- Use `array<int>` instead of `int[]`. -->
+    <rule ref="SlevomatCodingStandard.TypeHints.DisallowArrayTypeHintSyntax" />
+
+    <!-- Rask's more opinionated standards. -->
+    <rule ref="RaskCodingStandard" />
+</ruleset>

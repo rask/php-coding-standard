@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<ruleset name="RaskCodingStandard">
+    <description>Rask's custom coding standard for PHP projects.</description>
+</ruleset>
