@@ -26,6 +26,18 @@ ERROR:
 
     $hello__World_how_are_you_
 
+### RaskCodingStandard.NamingConventions.FunctionNaming
+
+Function names must be `snake_case`, must contain only `a-z`, `0-9`, and `_`, must not begin or end with an underscore, and must not contain two consecutive underscores. This only applies to "loose" functions, not methods.
+
+OK:
+
+    function hello_world() { ... }
+    
+ERROR:
+
+    function helloWorld() { ... }
+    
 ## Todo
 
 [ ] Add proper tests, the PHPCS test setup is wonky to use, maybe write a new one or copy from some place else
