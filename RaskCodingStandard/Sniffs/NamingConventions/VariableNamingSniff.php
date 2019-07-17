@@ -17,6 +17,7 @@ class VariableNamingSniff implements Sniff
      * Registers the tokens that this sniff wants to listen for.
      *
      * @see Tokens.php
+     *
      * @return array<int>
      */
     public function register() : array
@@ -43,14 +44,17 @@ class VariableNamingSniff implements Sniff
 
         // Snake case with lowercase alphanumerics only.
         $pattern = '%^\$[a-z]+[a-z0-9_]+[a-z0-9]$%';
-        $pattern_matches = preg_match($pattern, $variable_name) > 0;
+        $pattern_matches = \preg_match($pattern, $variable_name) > 0;
 
-        $is_valid = $pattern_matches && strpos($variable_name, '__') === false;
+        $is_valid = $pattern_matches && \strpos($variable_name, '__') === false;
 
         if (!$is_valid) {
-            $error = 'Variable names must be snake_case and consist only of '
-                . 'a-z, 0-9, and _ characters, and cannot start or end with a _ character, found `'
-                . $variable_name . '`';
+            $error = \sprintf(
+                'Variable names must be snake_case and consist only of a-z, 0-9, and _ characters, '
+                . 'and cannot start or end with a _ character, or contain two adjacent _'
+                . 'characters, found `%s`',
+                $variable_name
+            );
 
             $phpcs_file->addError($error, $stack_ptr, 'Found', $variable_name);
         }

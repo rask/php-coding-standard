@@ -6,6 +6,7 @@
 
     <!-- Generic excludes. -->
     <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/tests/reports/*</exclude-pattern>
 
     <autoload>./vendor/autoload.php</autoload>
 
@@ -14,8 +15,9 @@
     <rule ref="Generic.PHP.Syntax" />
 
     <rule ref="PSR1" />
+
     <rule ref="PSR2">
-        <!-- The following exclude is in place to make some multiline declarations saner. -->
+        <!-- The following exclude is in place to make some multiline function declarations saner. -->
         <exclude name="PSR2.ControlStructures.ControlStructureSpacing.SpacingAfterOpenBrace" />
     </rule>
 
@@ -24,12 +26,6 @@
     <rule ref="PSR1.Methods.CamelCapsMethodName">
         <!-- `it_can_look_like_this_in_test_methods()`. -->
         <exclude-pattern>*/tests/*</exclude-pattern>
-    </rule>
-
-    <rule ref="Generic.Files.LineEndings">
-        <properties>
-            <property name="eolChar" value="\n"/>
-        </properties>
     </rule>
 
     <rule ref="Generic.Files.EndFileNewline" />
@@ -42,35 +38,50 @@
         </properties>
     </rule>
 
-    <rile ref="Generic.VersionControl.GitMergeConflict" />
-
-    <rule ref="Squiz.Commenting.FunctionComment">
-        <exclude name="Squiz.Commenting.FunctionComment.InvalidReturn" />
-        <exclude name="Squiz.Commenting.FunctionComment.MissingReturn" />
-        <exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamType" />
-        <exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamName" />
-        <exclude-pattern>*/tests/*</exclude-pattern>
-    </rule>
+    <rule ref="Generic.VersionControl.GitMergeConflict" />
 
     <rule ref="Generic.Commenting.DocComment">
-        <exclude-pattern>*/tests/*</exclude-pattern>
         <exclude name="Generic.Commenting.DocComment.ParamNotFirst" />
         <exclude name="Generic.Commenting.DocComment.TagValueIndent" />
         <exclude name="Generic.Commenting.DocComment.ContentAfterOpen" />
         <exclude name="Generic.Commenting.DocComment.ContentBeforeClose" />
         <exclude name="Generic.Commenting.DocComment.MissingShort" />
+
+        <exclude-pattern>*/tests/*</exclude-pattern>
+    </rule>
+
+    <rule ref="Squiz.Commenting.FunctionComment">
+        <!-- PHP7 can comment itself better here in most cases. -->
+        <exclude name="Squiz.Commenting.FunctionComment.InvalidReturn" />
+        <exclude name="Squiz.Commenting.FunctionComment.MissingReturn" />
+        <exclude name="Squiz.Commenting.FunctionComment.MissingParamTag" />
+
+        <!-- Sometimes useless, e.g. `int` is okay and this tries to force `integer`. -->
+        <exclude name="Squiz.Commenting.FunctionComment.IncorrectParamVarName" />
+
+        <!-- No alignment. -->
+        <exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamType" />
+        <exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamName" />
+
+        <exclude-pattern>*/tests/*</exclude-pattern>
     </rule>
 
     <!-- Force strict types. -->
-    <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes"
-          newlinesCountBetweenOpenTagAndDeclare="0"
-          newlinesCountAfterDeclare="2"
-          spacesCountAroundEqualsSign="1" />
+    <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
+        <properties>
+            <property name="newlinesCountBetweenOpenTagAndDeclare" value="0" />
+            <property name="newlinesCountAfterDeclare" value="2" />
+            <property name="spacesCountAroundEqualsSign" value="1" />
+        </properties>
+    </rule>
 
     <!-- Make docblock typing redundant if declaration itself uses types. -->
-    <rule ref="SlevomatCodingStandard.TypeHints.TypeHintDeclaration"
-          enableEachParameterAndReturnInspection="true" />
-    <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses" />
+    <rule ref="SlevomatCodingStandard.TypeHints.TypeHintDeclaration">
+        <properties>
+            <property name="enableEachParameterAndReturnInspection" value="true" />
+            <property name="allAnnotationsAreUseful" value="true" />
+        </properties>
+    </rule>
 
     <!-- Use `===` instead of `==`. -->
     <rule ref="SlevomatCodingStandard.Operators.DisallowEqualOperators" />
@@ -81,6 +92,48 @@
     <!-- Use `array<int>` instead of `int[]`. -->
     <rule ref="SlevomatCodingStandard.TypeHints.DisallowArrayTypeHintSyntax" />
 
-    <!-- Rask's more opinionated standards. -->
+    <!-- `[...] = foo()` instead of `list(...) = foo()`. -->
+    <rule ref="SlevomatCodingStandard.PHP.ShortList" />
+
+    <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses" />
+    <rule ref="SlevomatCodingStandard.Namespaces.UseDoesNotStartWithBackslash" />
+    <rule ref="SlevomatCodingStandard.Namespaces.FullyQualifiedGlobalFunctions" />
+    <rule ref="SlevomatCodingStandard.ControlStructures.DisallowYodaComparison" />
+    <rule ref="SlevomatCodingStandard.Arrays.TrailingArrayComma" />
+    <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing">
+        <properties>
+            <property name="spacesCountBeforeColon" value="1" />
+        </properties>
+    </rule>
+    <rule ref="SlevomatCodingStandard.Commenting.DocCommentSpacing">
+        <properties>
+            <property name="linesCountBetweenAnnotationsGroups" value="1" />
+            <property name="linesCountBetweenDescriptionAndAnnotations" value="1" />
+            <property name="linesCountBeforeFirstContent" value="0" />
+            <property name="linesCountAfterLastContent" value="0" />
+            <property name="annotationsGroups" type="array">
+                <element value="
+                    @phpcsSuppress,
+                    @internal,
+                    @deprecated,
+                    @todo,
+                    @fixme,
+                    @see,
+                    @link,
+                    @var
+                " />
+                <element value="
+                    @throws
+                " />
+                <element value="
+                    @param
+                " />
+                <element value="
+                    @return
+                " />
+            </property>
+        </properties>
+    </rule>
+
     <rule ref="RaskCodingStandard" />
 </ruleset>

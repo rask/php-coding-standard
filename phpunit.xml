@@ -3,9 +3,8 @@
          xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
          backupGlobals="false"
          backupStaticAttributes="false"
-         bootstrap="tests/bootstrap.php"
-         colors="true"
-         beStrictAboutTestsThatDoNotTestAnything="false">
+         bootstrap="vendor/autoload.php"
+         colors="true">
     <testsuites>
         <testsuite name="Tests">
             <directory suffix="Test.php">./tests/</directory>
@@ -21,6 +20,6 @@
     <logging>
         <log type="coverage-text" target="php://stdout" showOnlySummary="true" />
         <log type="coverage-html" target="./tests/reports/coverage" lowUpperBound="50" highLowerBound="75" />
-        <log type="junit" target="tests/coverage/phpunit.junit.xml" />
+        <log type="junit" target="tests/reports/phpunit.junit.xml" />
     </logging>
 </phpunit>
