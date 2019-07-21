@@ -4,6 +4,7 @@ namespace RaskCodingStandard\Sniffs\NamingConventions;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\AbstractScopeSniff;
+use RaskCodingStandard\Utils\SnakeCase;
 
 /**
  * Class FunctionNamingSniff
@@ -45,13 +46,7 @@ class FunctionNamingSniff extends AbstractScopeSniff
         $function_name_token = $tokens[$stack_ptr + 2];
         $function_name = $function_name_token['content'];
 
-        // Snake case with lowercase alphanumerics only.
-        $pattern = '%^[a-z][a-z0-9_]+[a-z0-9]$%';
-        $pattern_matches = \preg_match($pattern, $function_name) > 0;
-
-        $is_valid = $pattern_matches && \strpos($function_name, '__') === false;
-
-        if (!$is_valid) {
+        if (SnakeCase::isSnakeCase($function_name) === false) {
             $error = \sprintf(
                 'Function names must be snake_case and consist only of a-z, 0-9, and _ characters, '
                 . 'and cannot start or end with a _ character, or contain two adjacent _ '

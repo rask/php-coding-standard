@@ -4,6 +4,7 @@ namespace RaskCodingStandard\Sniffs\NamingConventions;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
+use RaskCodingStandard\Utils\SnakeCase;
 
 /**
  * Class VariableNamingSniff
@@ -40,19 +41,13 @@ class VariableNamingSniff implements Sniff
     {
         $variable_token = $phpcs_file->getTokens()[$stack_ptr];
 
-        $variable_name = $variable_token['content'];
+        $variable_name = trim($variable_token['content'], '$');
 
-        // Snake case with lowercase alphanumerics only.
-        $pattern = '%^\$[a-z]+[a-z0-9_]+[a-z0-9]$%';
-        $pattern_matches = \preg_match($pattern, $variable_name) > 0;
-
-        $is_valid = $pattern_matches && \strpos($variable_name, '__') === false;
-
-        if (!$is_valid) {
+        if (SnakeCase::isSnakeCase($variable_name) === false) {
             $error = \sprintf(
                 'Variable names must be snake_case and consist only of a-z, 0-9, and _ characters, '
                 . 'and cannot start or end with a _ character, or contain two adjacent _'
-                . 'characters, found `%s`',
+                . 'characters, found `$%s`',
                 $variable_name
             );
 
