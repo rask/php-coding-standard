@@ -43,6 +43,14 @@ class VariableNamingSniff implements Sniff
 
         $variable_name = trim($variable_token['content'], '$');
 
+        if ($this->isPredefinedVariable($variable_name)) {
+            return;
+        }
+
+        if ($variable_name === '_') {
+            return;
+        }
+
         if (SnakeCase::isSnakeCase($variable_name) === false) {
             $error = \sprintf(
                 'Variable names must be snake_case and consist only of a-z, 0-9, and _ characters, '
@@ -53,5 +61,24 @@ class VariableNamingSniff implements Sniff
 
             $phpcs_file->addError($error, $stack_ptr, 'Found', $variable_name);
         }
+    }
+
+    /**
+     * Determine whether the variable is a PHP predefined variable.
+     */
+    protected function isPredefinedVariable(string $variable_name) : bool
+    {
+        return \in_array($variable_name, [
+            '_SERVER',
+            '_GET',
+            '_POST',
+            '_FILES',
+            '_REQUEST',
+            '_SESSION',
+            '_ENV',
+            '_COOKIE',
+            'GLOBALS',
+            'HTTP_RAW_POST_DATA',
+        ], true);
     }
 }
