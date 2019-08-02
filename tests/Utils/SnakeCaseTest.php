@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace RaskCodingStandard\Tests\Util;
+namespace RaskCodingStandard\Tests\Utils;
 
 use PHPUnit\Framework\TestCase;
 use RaskCodingStandard\Utils\SnakeCase;
@@ -10,14 +10,14 @@ use RaskCodingStandard\Utils\SnakeCase;
  */
 class SnakeCaseTest extends TestCase
 {
-    public function test_it_validates_snake_case_properly()
+    public function test_it_validates_snake_case_properly() : void
     {
         $ok = [
             'helloworld',
             'hello_world',
             'hello2world2',
             'hello_2_world',
-            'hello2_world_foobar'
+            'hello2_world_foobar',
         ];
 
         $fail = [

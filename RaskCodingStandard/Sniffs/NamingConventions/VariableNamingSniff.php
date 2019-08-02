@@ -41,7 +41,7 @@ class VariableNamingSniff implements Sniff
     {
         $variable_token = $phpcs_file->getTokens()[$stack_ptr];
 
-        $variable_name = trim($variable_token['content'], '$');
+        $variable_name = \ltrim($variable_token['content'], '$');
 
         if ($this->isPredefinedVariable($variable_name)) {
             return;
@@ -52,14 +52,16 @@ class VariableNamingSniff implements Sniff
         }
 
         if (SnakeCase::isSnakeCase($variable_name) === false) {
-            $error = \sprintf(
-                'Variable names must be snake_case and consist only of a-z, 0-9, and _ characters, '
-                . 'and cannot start or end with a _ character, or contain two adjacent _'
-                . 'characters, found `$%s`',
-                $variable_name
-            );
+            $error = 'Variable names must be snake_case and consist only of a-z, 0-9, and _ '
+                . 'characters, and cannot start or end with a _ character, or contain two '
+                . 'adjacent _ characters, found `$%s`';
 
-            $phpcs_file->addError($error, $stack_ptr, 'Found', $variable_name);
+            $phpcs_file->addError(
+                $error,
+                $stack_ptr,
+                'NonSnakecaseVariableFound',
+                [$variable_name]
+            );
         }
     }
 

@@ -20,10 +20,9 @@ class SnakeCase
         $pattern = '%^[a-z][a-z0-9_]*$%';
         $pattern_matches = \preg_match($pattern, $subject) > 0;
 
-        $start_ok = \mb_strpos($subject, '_') !== 0;
-        $end_ok = \mb_strpos($subject, '_') !== mb_strlen($subject) - 1;
-        $no_doubles = \mb_strpos($subject, '__') === false;
+        $end_ok = \strpos($subject, '_') !== \strlen($subject) - 1;
+        $no_doubles = \strpos($subject, '__') === false;
 
-        return $pattern_matches && $start_ok && $end_ok && $no_doubles;
+        return $pattern_matches && $end_ok && $no_doubles;
     }
 }

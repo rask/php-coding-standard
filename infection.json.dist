@@ -2,9 +2,10 @@
     "timeout": 10,
     "source": {
         "directories": [
-            "RaskCodingStandard"
+            "RaskCodingStandard/Utils"
         ]
     },
+    "bootstrap": "tests/bootstrap.php",
     "logs": {
         "text": "tests/reports/infection.log"
     },
