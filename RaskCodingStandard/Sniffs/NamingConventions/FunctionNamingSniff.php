@@ -24,7 +24,7 @@ class FunctionNamingSniff extends AbstractScopeSniff
     {
         // Method names exist inside the following. Allow processing outside as well to reach
         // loose functions.
-        parent::__construct([T_CLASS, T_TRAIT, T_INTERFACE], [T_FUNCTION], true);
+        parent::__construct([T_CLASS, T_TRAIT, T_INTERFACE, T_ENUM], [T_FUNCTION], true);
     }
 
     /**
@@ -35,10 +35,8 @@ class FunctionNamingSniff extends AbstractScopeSniff
      * @param File $phpcs_file The PHP_CodeSniffer file where the token was found.
      * @param mixed $stack_ptr The position in the PHP_CodeSniffer file's token stack where the
      *                         token was found.
-     *
-     * @return void|int
      */
-    protected function processFunctionName(File $phpcs_file, $stack_ptr)
+    protected function processFunctionName(File $phpcs_file, mixed $stack_ptr) : void
     {
         $tokens = $phpcs_file->getTokens();
 
@@ -47,14 +45,11 @@ class FunctionNamingSniff extends AbstractScopeSniff
         $function_name = $function_name_token['content'];
 
         if (SnakeCase::isSnakeCase($function_name) === false) {
-            $error = \sprintf(
-                'Function names must be snake_case and consist only of a-z, 0-9, and _ characters, '
+            $error = 'Function names must be snake_case and consist only of a-z, 0-9, and _ characters, '
                 . 'and cannot start or end with a _ character, or contain two adjacent _ '
-                . 'characters, found `%s`',
-                $function_name
-            );
+                . 'characters, found `%s`';
 
-            $phpcs_file->addError($error, $stack_ptr + 2, 'Found', $function_name);
+            $phpcs_file->addError($error, $stack_ptr + 2, 'NonSnakecaseVariableFound', [$function_name]);
         }
     }
     /**
@@ -66,10 +61,8 @@ class FunctionNamingSniff extends AbstractScopeSniff
      * @param mixed $stack_ptr The position in the stack where this token was found.
      * @param mixed $curr_scope The position in the tokens array that opened the scope that this
      *                          test is listening for.
-     *
-     * @return void|int
      */
-    protected function processTokenWithinScope(File $phpcs_file, $stack_ptr, $curr_scope)
+    protected function processTokenWithinScope(File $phpcs_file, mixed $stack_ptr, mixed $curr_scope) : void
     {
         // noop
     }
@@ -81,10 +74,8 @@ class FunctionNamingSniff extends AbstractScopeSniff
      *
      * @param File $phpcs_file The file where this token was found.
      * @param mixed $stack_ptr The position in the stack where this token was found.
-     *
-     * @return void|int
      */
-    protected function processTokenOutsideScope(File $phpcs_file, $stack_ptr)
+    protected function processTokenOutsideScope(File $phpcs_file, mixed $stack_ptr) : void
     {
         $this->processFunctionName($phpcs_file, $stack_ptr);
     }

@@ -17,26 +17,32 @@
     },
 
     "require": {
-        "php": ">=7.3",
+        "php": ">=8.0",
         "roave/security-advisories": "dev-master"
     },
 
     "require-dev": {
         "roave/security-advisories": "dev-master",
-        "phpunit/phpunit": "^7.0",
-        "phpstan/phpstan": "^0.11.12",
-        "phpstan/phpstan-strict-rules": "^0.11.1",
+        "phpunit/phpunit": "^9.0",
+        "phpstan/phpstan": "^1.0",
+        "phpstan/phpstan-strict-rules": "^1.0",
         "squizlabs/php_codesniffer": "^3.3",
-        "slevomat/coding-standard": "~5.0",
-        "phpstan/phpstan-phpunit": "^0.11.2",
-        "infection/infection": "^0.13.4"
+        "slevomat/coding-standard": "^8.0",
+        "phpstan/phpstan-phpunit": "^1.0",
+        "infection/infection": "^0.20"
     },
 
     "scripts": {
         "test": "./vendor/bin/phpunit",
-        "stan": "./vendor/bin/phpstan analyze -l 7 -a ./phpstan.autoload.php ./",
+        "stan": "./vendor/bin/phpstan analyze -l max -a ./phpstan.autoload.php ./",
         "lint": ["@php -l .", " ./vendor/bin/phpcs ."],
         "fix": "./vendor/bin/phpcbf .",
         "infection": "./vendor/bin/infection"
+    },
+    "config": {
+        "allow-plugins": {
+            "infection/extension-installer": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     }
 }

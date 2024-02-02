@@ -34,11 +34,13 @@ class VariableNamingSniff implements Sniff
      * @param File $phpcs_file The PHP_CodeSniffer file where the token was found.
      * @param mixed $stack_ptr The position in the PHP_CodeSniffer file's token stack where the
      *                         token was found.
-     *
-     * @return void|int
      */
-    public function process(File $phpcs_file, $stack_ptr)
+    public function process(File $phpcs_file, mixed $stack_ptr) : void
     {
+        $stack_ptr = \is_numeric($stack_ptr)
+            ? (int) $stack_ptr
+            : throw new \RuntimeException('Non-integer stack pointer given');
+
         $variable_token = $phpcs_file->getTokens()[$stack_ptr];
 
         $variable_name = \ltrim($variable_token['content'], '$');
@@ -48,6 +50,7 @@ class VariableNamingSniff implements Sniff
         }
 
         if ($variable_name === '_') {
+            // Allow these "throwaway" names.
             return;
         }
 

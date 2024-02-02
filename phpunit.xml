@@ -4,26 +4,27 @@
          backupGlobals="false"
          backupStaticAttributes="false"
          bootstrap="tests/bootstrap.php"
-         colors="true">
+         colors="true"
+         executionOrder="random">
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">./RaskCodingStandard</directory>
+        </include>
+        <exclude>
+            <directory>./RaskCodingStandard/Sniffs</directory>
+        </exclude>
+        <report>
+            <html outputDirectory="./tests/reports/coverage" lowUpperBound="50"
+                  highLowerBound="75"/>
+            <text outputFile="php://stdout" showOnlySummary="true"/>
+        </report>
+    </coverage>
     <testsuites>
         <testsuite name="Tests">
             <directory suffix="Test.php">./tests/</directory>
         </testsuite>
     </testsuites>
-
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./RaskCodingStandard</directory>
-            <exclude>
-                <!-- Requires a custom autoloader implementation. Do it later. -->
-                <directory>./RaskCodingStandard/Sniffs</directory>
-            </exclude>
-        </whitelist>
-    </filter>
-
     <logging>
-        <log type="coverage-text" target="php://stdout" showOnlySummary="true" />
-        <log type="coverage-html" target="./tests/reports/coverage" lowUpperBound="50" highLowerBound="75" />
-        <log type="junit" target="tests/reports/phpunit.junit.xml" />
+        <junit outputFile="tests/reports/phpunit.junit.xml"/>
     </logging>
 </phpunit>

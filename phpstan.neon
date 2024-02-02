@@ -5,9 +5,9 @@ includes:
 parameters:
     paths:
         -   .
-    excludes_analyse:
-        -   %rootDir%/../../../vendor/*
-        -   %rootDir%/../../../phpstan.autoload.php
+    excludePaths:
+        -   vendor/*
+        -   phpstan.autoload.php
     level: max
     ignoreErrors:
         - '#Dynamic call to static method PHPUnit\\Framework\\Assert::.+\(\)\.#'
